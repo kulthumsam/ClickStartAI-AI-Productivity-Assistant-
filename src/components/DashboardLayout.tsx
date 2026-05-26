@@ -24,7 +24,7 @@ export function DashboardLayout({ title, description, children }: Props) {
             ) : null}
           </div>
         </header>
-        <main className="flex-1 p-4 md:p-6 lg:p-8 shadow-md rounded-md opacity-20 bg-[#f2dbf5]/[0.39] border-[#f0c69d]">{children}</main>
+        <main className="flex-1 p-4 md:p-6 lg:p-8">{children}</main>
       </SidebarInset>
       <Toaster />
     </SidebarProvider>

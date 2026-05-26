@@ -58,7 +58,7 @@ function Dashboard() {
       description="Your AI workplace productivity suite"
     >
       <div className="mx-auto max-w-6xl space-y-8">
-        <section className="border bg-gradient-to-br from-primary/5 via-background to-background p-6 md:p-10 border-[#b9ddb6] border-solid rounded-xl shadow-md text-xl font-semibold">
+        <section className="rounded-2xl border bg-gradient-to-br from-primary/5 via-background to-background p-6 md:p-10">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Sparkles className="h-4 w-4" /> Powered by AI
           </div>
