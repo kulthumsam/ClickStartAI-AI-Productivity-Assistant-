@@ -73,7 +73,7 @@ function ChatPage() {
           <div ref={scrollRef} className="h-full overflow-y-auto p-4 md:p-6">
             {messages.length === 0 ? (
               <div className="flex h-full flex-col items-center justify-center text-center">
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FF6B6B20] text-[#FF6B6B]">
                   <Sparkles className="h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-medium">How can I help today?</h3>
