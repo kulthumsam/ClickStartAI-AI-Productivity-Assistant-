@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({
   component: Dashboard,
   head: () => ({
     meta: [
-      { title: "WorkAI — AI Workplace Productivity Assistant" },
+      { title: "ClickStartAI — AI Workplace Productivity Assistant" },
       {
         name: "description",
         content:
@@ -68,15 +68,15 @@ function Dashboard() {
       description="Your AI workplace productivity suite"
     >
       <div className="mx-auto max-w-6xl space-y-8">
-        <section className="rounded-2xl border bg-gradient-to-br from-primary/5 via-background to-background p-6 md:p-10">
+        <section className="rounded-2xl bg-gradient-to-br from-primary/5 via-background to-background p-6 md:p-10 border-4 border-[#c6e4af] border-solid">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Sparkles className="h-4 w-4" /> Powered by AI
           </div>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-5xl">
             Get more done, in less time.
           </h2>
           <p className="mt-3 max-w-2xl text-muted-foreground">
-            WorkAI helps professionals automate repetitive workplace tasks — write better emails,
+            ClickStartAI helps professionals automate repetitive workplace tasks — write better emails,
             summarize meetings, plan projects, and research faster.
           </p>
         </section>
