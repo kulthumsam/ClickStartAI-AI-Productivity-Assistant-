@@ -86,16 +86,19 @@ function Dashboard() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {tools.map((t) => (
               <Link key={t.to} to={t.to} className="group">
-                <Card className="h-full transition-all hover:border-primary/40 hover:shadow-md">
+                <Card className="h-full transition-all hover:border-primary/40 hover:shadow-lg hover:-translate-y-0.5">
                   <CardHeader>
-                    <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <div
+                      className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl"
+                      style={{ backgroundColor: t.bg, color: t.color }}
+                    >
                       <t.icon className="h-5 w-5" />
                     </div>
                     <CardTitle className="text-base">{t.title}</CardTitle>
                     <CardDescription className="text-sm">{t.desc}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <span className="inline-flex items-center gap-1 text-xs font-medium text-primary">
+                    <span className="inline-flex items-center gap-1 text-xs font-medium" style={{ color: t.color }}>
                       Open tool{" "}
                       <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
                     </span>
