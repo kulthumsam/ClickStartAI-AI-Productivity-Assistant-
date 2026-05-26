@@ -9,14 +9,27 @@ export function ThemeToggle() {
     const stored = localStorage.getItem("theme");
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const dark = stored ? stored === "dark" : prefersDark;
+    applyTheme(dark);
     setIsDark(dark);
-    document.documentElement.classList.toggle("dark", dark);
   }, []);
+
+  const applyTheme = (dark: boolean) => {
+    document.documentElement.classList.toggle("dark", dark);
+    if (dark) {
+      // trigger moon rise animation
+      document.documentElement.classList.remove("moon-rise");
+      // force reflow so the animation restarts
+      void document.documentElement.offsetWidth;
+      document.documentElement.classList.add("moon-rise");
+    } else {
+      document.documentElement.classList.remove("moon-rise");
+    }
+  };
 
   const toggle = () => {
     const next = !isDark;
     setIsDark(next);
-    document.documentElement.classList.toggle("dark", next);
+    applyTheme(next);
     localStorage.setItem("theme", next ? "dark" : "light");
   };
 
