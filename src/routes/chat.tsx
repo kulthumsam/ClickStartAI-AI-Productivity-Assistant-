@@ -88,8 +88,8 @@ function ChatPage() {
                     <div
                       className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
                         m.role === "user"
-                          ? "bg-secondary text-secondary-foreground"
-                          : "bg-primary text-primary-foreground"
+                          ? "bg-[#FF9F1C20] text-[#FF9F1C]"
+                          : "bg-[#FF6B6B20] text-[#FF6B6B]"
                       }`}
                     >
                       {m.role === "user" ? (
