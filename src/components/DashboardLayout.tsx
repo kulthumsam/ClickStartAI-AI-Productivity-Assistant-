@@ -14,7 +14,7 @@ export function DashboardLayout({ title, description, children }: Props) {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="sticky top-0 z-10 flex h-14 items-center gap-3 border-b bg-background/80 px-4 backdrop-blur">
+        <header className="sticky top-0 z-10 flex h-14 items-center gap-3 border-b bg-background/60 px-4 backdrop-blur-xl">
           <SidebarTrigger />
           <Separator orientation="vertical" className="h-5" />
           <div className="flex flex-col leading-tight">
