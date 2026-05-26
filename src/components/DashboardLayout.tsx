@@ -2,6 +2,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/s
 import { AppSidebar } from "./AppSidebar";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface Props {
   title: string;
@@ -22,6 +23,9 @@ export function DashboardLayout({ title, description, children }: Props) {
             {description ? (
               <p className="text-xs text-muted-foreground">{description}</p>
             ) : null}
+          </div>
+          <div className="ml-auto">
+            <ThemeToggle />
           </div>
         </header>
         <main className="flex-1 p-4 md:p-6 lg:p-8">{children}</main>
