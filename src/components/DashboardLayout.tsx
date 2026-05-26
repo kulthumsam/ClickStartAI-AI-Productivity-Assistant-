@@ -3,6 +3,7 @@ import { AppSidebar } from "./AppSidebar";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeToggle } from "./ThemeToggle";
+import { NightSky } from "./NightSky";
 
 interface Props {
   title: string;
@@ -13,6 +14,7 @@ interface Props {
 export function DashboardLayout({ title, description, children }: Props) {
   return (
     <SidebarProvider>
+      <NightSky />
       <AppSidebar />
       <SidebarInset>
         <header className="sticky top-0 z-10 flex h-14 items-center gap-3 border-b bg-background/60 px-4 backdrop-blur-xl">

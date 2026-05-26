@@ -145,9 +145,15 @@
   }
 
   .dark body {
-    background:
-      radial-gradient(circle at 85% 15%, #f5f3c8 0 38px, rgba(245, 243, 200, 0.25) 39px 54px, transparent 55px),
-      radial-gradient(circle at 78% 12%, #1a0b2e 0 22px, transparent 23px),
+    background: linear-gradient(135deg, #0a0420 0%, #1a0b3e 45%, #2d1538 100%);
+    background-attachment: fixed;
+  }
+}
+
+@layer utilities {
+  .night-stars,
+  .night-stars-2 {
+    background-image:
       radial-gradient(1.5px 1.5px at 10% 20%, #ffffff 99%, transparent 100%),
       radial-gradient(1px 1px at 25% 35%, #ffffff 99%, transparent 100%),
       radial-gradient(2px 2px at 40% 15%, #ffffff 99%, transparent 100%),
@@ -162,8 +168,59 @@
       radial-gradient(1.5px 1.5px at 60% 90%, #ffffff 99%, transparent 100%),
       radial-gradient(1px 1px at 95% 40%, #ffffff 99%, transparent 100%),
       radial-gradient(1px 1px at 20% 95%, #ffffff 99%, transparent 100%),
-      radial-gradient(2px 2px at 45% 5%, #ffffff 99%, transparent 100%),
-      linear-gradient(135deg, #0a0420 0%, #1a0b3e 45%, #2d1538 100%);
-    background-attachment: fixed;
+      radial-gradient(2px 2px at 45% 5%, #ffffff 99%, transparent 100%);
+    animation: twinkle 4s ease-in-out infinite;
+  }
+  .night-stars-2 {
+    background-position: 50px 30px;
+    animation-delay: 2s;
+    animation-duration: 6s;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.85; }
+    50% { opacity: 0.35; }
+  }
+
+  .night-moon {
+    position: absolute;
+    top: 6%;
+    right: 7%;
+    width: 110px;
+    height: 110px;
+    transform: translateY(120vh);
+  }
+  .moon-rise .night-moon {
+    animation: moonRise 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  html.dark:not(.moon-rise) .night-moon {
+    transform: translateY(0);
+  }
+
+  @keyframes moonRise {
+    0% { transform: translateY(120vh) scale(0.85); opacity: 0; }
+    60% { opacity: 1; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  .night-moon-glow {
+    position: absolute;
+    inset: -40px;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgba(255, 244, 200, 0.45) 0%, rgba(255, 244, 200, 0.15) 40%, transparent 70%);
+    filter: blur(8px);
+  }
+  .night-moon-body {
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 35% 35%, #fffbe6 0%, #f5e9b8 55%, #d9c47a 100%);
+    box-shadow: inset -10px -12px 24px rgba(120, 90, 30, 0.35), 0 0 30px rgba(255, 244, 200, 0.4);
+  }
+  .night-crater {
+    position: absolute;
+    border-radius: 9999px;
+    background: rgba(160, 130, 60, 0.35);
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.2);
   }
 }
