@@ -4,7 +4,6 @@ import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeToggle } from "./ThemeToggle";
 import { NightSky } from "./NightSky";
-import { NightSky } from "./NightSky";
 
 interface Props {
   title: string;
