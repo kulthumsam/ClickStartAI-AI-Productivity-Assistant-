@@ -143,4 +143,8 @@
     color: var(--color-foreground);
     min-height: 100vh;
   }
+
+  .dark body {
+    background: linear-gradient(135deg, #1a0b2e 0%, #2d1b4e 40%, #3d1f2b 100%);
+  }
 }
