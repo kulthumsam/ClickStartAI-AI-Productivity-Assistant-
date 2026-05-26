@@ -42,7 +42,7 @@ export function AppSidebar() {
             <Sparkles className="h-4 w-4" />
           </div>
           <div className="flex flex-col leading-tight">
-            <span className="text-sm font-semibold">WorkAI</span>
+            <span className="text-sm font-semibold">ClickStartAI</span>
             <span className="text-xs text-muted-foreground">Productivity Suite</span>
           </div>
         </Link>
