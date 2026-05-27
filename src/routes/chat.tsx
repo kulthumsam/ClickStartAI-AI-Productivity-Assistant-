@@ -196,20 +196,37 @@ function ChatPage() {
               onKeyDown={onKeyDown}
               placeholder="Message the assistant… (Enter to send, Shift+Enter for newline)"
               rows={2}
-              className="resize-none pr-14"
+              className="resize-none pr-24"
             />
-            <Button
-              onClick={send}
-              disabled={loading || !input.trim()}
-              size="icon"
-              className="absolute bottom-2 right-2 h-9 w-9"
-            >
-              {loading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Send className="h-4 w-4" />
-              )}
-            </Button>
+            <div className="absolute bottom-2 right-2 flex gap-1">
+              <Button
+                type="button"
+                onClick={toggleVoice}
+                size="icon"
+                variant={listening ? "default" : "outline"}
+                className={`h-9 w-9 ${listening ? "animate-pulse" : ""}`}
+                aria-label={listening ? "Stop voice input" : "Start voice input"}
+                title={listening ? "Stop voice input" : "Start voice input"}
+              >
+                {listening ? (
+                  <MicOff className="h-4 w-4" />
+                ) : (
+                  <Mic className="h-4 w-4" />
+                )}
+              </Button>
+              <Button
+                onClick={send}
+                disabled={loading || !input.trim()}
+                size="icon"
+                className="h-9 w-9"
+              >
+                {loading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Send className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
           </div>
           <AIDisclaimer />
         </div>
