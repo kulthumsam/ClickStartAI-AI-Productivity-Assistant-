@@ -109,6 +109,67 @@ function Dashboard() {
           </div>
         </section>
 
+        <section>
+          <h3 className="mb-4 text-sm font-medium text-muted-foreground">Features</h3>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[
+              {
+                title: "1. Smart Email Generator",
+                items: [
+                  "Generate context-based professional emails",
+                  "Support tone variations (formal, informal, persuasive)",
+                  "Adapt content based on audience (client, manager, team)",
+                ],
+              },
+              {
+                title: "2. Meeting Notes Summarizer",
+                items: [
+                  "Convert lengthy notes into concise summaries",
+                  "Extract key points, decisions, and action items",
+                  "Highlight deadlines and responsibilities",
+                ],
+              },
+              {
+                title: "3. AI Task Planner / Scheduler",
+                items: [
+                  "Generate structured daily or weekly plans",
+                  "Prioritize tasks based on urgency and importance",
+                  "Suggest time optimization strategies",
+                ],
+              },
+              {
+                title: "4. AI Research Assistant",
+                items: [
+                  "Summarize articles, reports, or topics",
+                  "Provide key insights and recommendations",
+                  "Simplify complex information for quick understanding",
+                ],
+              },
+              {
+                title: "5. AI Chatbot Interface",
+                items: [
+                  "Provide an interactive interface for user queries",
+                  "Handle multiple prompts and responses",
+                  "Simulate a real workplace assistant experience",
+                ],
+              },
+            ].map((f) => (
+              <Card key={f.title}>
+                <CardHeader>
+                  <CardTitle className="text-base">{f.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+                    {f.items.map((it) => (
+                      <li key={it}>{it}</li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
         <AIDisclaimer />
       </div>
     </DashboardLayout>
