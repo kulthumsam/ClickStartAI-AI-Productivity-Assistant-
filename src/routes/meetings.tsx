@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { AIOutput } from "@/components/AIOutput";
 import { AIDisclaimer } from "@/components/AIDisclaimer";
 import { streamAI } from "@/lib/ai-stream";
-import { Loader2, Sparkles } from "lucide-react";
+import { extractTextFromFile } from "@/lib/extract-file-text";
+import { Loader2, Sparkles, Upload } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/meetings")({
