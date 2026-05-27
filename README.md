@@ -31,6 +31,9 @@ The app is organized as a dashboard with dedicated pages (routes) for each tool.
 - Provides a general conversational assistant experience for drafting, brainstorming, planning, and quick answers.
 - Includes a chat input area and conversational UI.
 
+### Day/Night Feature
+- Includes a light and dark mode button so that you can switch between the two.
+
 ### Output review and safety messaging
 - The UI includes reminders to review/edit AI output before professional use and to avoid sharing confidential information.
 
