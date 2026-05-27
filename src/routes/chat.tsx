@@ -21,11 +21,82 @@ function ChatPage() {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [listening, setListening] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const recognitionRef = useRef<any>(null);
+  const baseInputRef = useRef("");
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    return () => {
+      try {
+        recognitionRef.current?.stop();
+      } catch {
+        // ignore
+      }
+    };
+  }, []);
+
+  const toggleVoice = () => {
+    const SR =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
+    if (!SR) {
+      toast.error("Voice input isn't supported in this browser. Try Chrome.");
+      return;
+    }
+
+    if (listening) {
+      recognitionRef.current?.stop();
+      return;
+    }
+
+    const recognition = new SR();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = navigator.language || "en-US";
+
+    baseInputRef.current = input ? input.trimEnd() + " " : "";
+
+    recognition.onresult = (event: any) => {
+      let finalText = "";
+      let interimText = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalText += transcript;
+        } else {
+          interimText += transcript;
+        }
+      }
+      if (finalText) {
+        baseInputRef.current += finalText;
+      }
+      setInput(baseInputRef.current + interimText);
+    };
+
+    recognition.onerror = (e: any) => {
+      if (e.error !== "aborted" && e.error !== "no-speech") {
+        toast.error(`Voice input error: ${e.error}`);
+      }
+      setListening(false);
+    };
+
+    recognition.onend = () => {
+      setListening(false);
+    };
+
+    recognitionRef.current = recognition;
+    try {
+      recognition.start();
+      setListening(true);
+    } catch {
+      setListening(false);
+    }
+  };
 
   const send = async () => {
     const text = input.trim();
