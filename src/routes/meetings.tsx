@@ -21,6 +21,32 @@ function MeetingsPage() {
   const [notes, setNotes] = useState("");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setImporting(true);
+    try {
+      const text = await extractTextFromFile(file);
+      if (!text) {
+        toast.error("No text found in that file.");
+      } else {
+        setNotes((prev) =>
+          prev
+            ? `${prev}\n\n--- ${file.name} ---\n${text}`
+            : `--- ${file.name} ---\n${text}`,
+        );
+        toast.success(`Imported ${file.name}`);
+      }
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to read file.");
+    } finally {
+      setImporting(false);
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  };
 
   const generate = async () => {
     if (!notes.trim()) {
