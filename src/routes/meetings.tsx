@@ -88,14 +88,41 @@ function MeetingsPage() {
                 onChange={(e) => setNotes(e.target.value)}
               />
             </div>
-            <Button onClick={generate} disabled={loading} className="w-full">
-              {loading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Sparkles className="h-4 w-4" />
-              )}
-              {loading ? "Summarizing…" : "Summarize"}
-            </Button>
+            <input
+              ref={fileRef}
+              type="file"
+              accept=".pdf,.docx,.txt,.md,application/pdf,text/plain"
+              className="hidden"
+              onChange={handleFile}
+            />
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => fileRef.current?.click()}
+                disabled={importing || loading}
+                className="flex-1"
+              >
+                {importing ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Upload className="h-4 w-4" />
+                )}
+                {importing ? "Reading…" : "Choose File"}
+              </Button>
+              <Button
+                onClick={generate}
+                disabled={loading || importing}
+                className="flex-1"
+              >
+                {loading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Sparkles className="h-4 w-4" />
+                )}
+                {loading ? "Summarizing…" : "Summarize"}
+              </Button>
+            </div>
             <AIDisclaimer />
           </CardContent>
         </Card>
