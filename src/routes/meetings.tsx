@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { AIOutput } from "@/components/AIOutput";
 import { AIDisclaimer } from "@/components/AIDisclaimer";
 import { streamAI } from "@/lib/ai-stream";
-import { Loader2, Sparkles } from "lucide-react";
+import { extractTextFromFile } from "@/lib/extract-file-text";
+import { Loader2, Sparkles, Upload } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/meetings")({
@@ -20,6 +21,32 @@ function MeetingsPage() {
   const [notes, setNotes] = useState("");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setImporting(true);
+    try {
+      const text = await extractTextFromFile(file);
+      if (!text) {
+        toast.error("No text found in that file.");
+      } else {
+        setNotes((prev) =>
+          prev
+            ? `${prev}\n\n--- ${file.name} ---\n${text}`
+            : `--- ${file.name} ---\n${text}`,
+        );
+        toast.success(`Imported ${file.name}`);
+      }
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to read file.");
+    } finally {
+      setImporting(false);
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  };
 
   const generate = async () => {
     if (!notes.trim()) {
@@ -61,14 +88,41 @@ function MeetingsPage() {
                 onChange={(e) => setNotes(e.target.value)}
               />
             </div>
-            <Button onClick={generate} disabled={loading} className="w-full">
-              {loading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Sparkles className="h-4 w-4" />
-              )}
-              {loading ? "Summarizing…" : "Summarize"}
-            </Button>
+            <input
+              ref={fileRef}
+              type="file"
+              accept=".pdf,.docx,.txt,.md,application/pdf,text/plain"
+              className="hidden"
+              onChange={handleFile}
+            />
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => fileRef.current?.click()}
+                disabled={importing || loading}
+                className="flex-1"
+              >
+                {importing ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Upload className="h-4 w-4" />
+                )}
+                {importing ? "Reading…" : "Choose File"}
+              </Button>
+              <Button
+                onClick={generate}
+                disabled={loading || importing}
+                className="flex-1"
+              >
+                {loading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Sparkles className="h-4 w-4" />
+                )}
+                {loading ? "Summarizing…" : "Summarize"}
+              </Button>
+            </div>
             <AIDisclaimer />
           </CardContent>
         </Card>
