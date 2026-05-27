@@ -1,25 +1,31 @@
-import * as pdfjsLib from "pdfjs-dist";
-import PdfWorker from "pdfjs-dist/build/pdf.worker.mjs?worker";
 import mammoth from "mammoth";
 
-pdfjsLib.GlobalWorkerOptions.workerPort = new PdfWorker();
+async function extractPdf(file: File): Promise<string> {
+  const pdfjsLib = await import("pdfjs-dist");
+  const PdfWorker = (await import("pdfjs-dist/build/pdf.worker.mjs?worker"))
+    .default;
+  if (!pdfjsLib.GlobalWorkerOptions.workerPort) {
+    pdfjsLib.GlobalWorkerOptions.workerPort = new PdfWorker();
+  }
+  const buf = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+  let text = "";
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    text +=
+      content.items
+        .map((it) => ("str" in it ? (it as { str: string }).str : ""))
+        .join(" ") + "\n\n";
+  }
+  return text.trim();
+}
 
 export async function extractTextFromFile(file: File): Promise<string> {
   const name = file.name.toLowerCase();
 
   if (name.endsWith(".pdf") || file.type === "application/pdf") {
-    const buf = await file.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
-    let text = "";
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const content = await page.getTextContent();
-      text +=
-        content.items
-          .map((it) => ("str" in it ? (it as { str: string }).str : ""))
-          .join(" ") + "\n\n";
-    }
-    return text.trim();
+    return extractPdf(file);
   }
 
   if (name.endsWith(".docx")) {
