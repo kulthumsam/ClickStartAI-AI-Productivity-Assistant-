@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { AIDisclaimer } from "@/components/AIDisclaimer";
 import { streamAI } from "@/lib/ai-stream";
-import { Send, Loader2, Sparkles, User } from "lucide-react";
+import { Send, Loader2, Sparkles, User, Mic, MicOff } from "lucide-react";
 import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
 
@@ -21,11 +21,82 @@ function ChatPage() {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [listening, setListening] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const recognitionRef = useRef<any>(null);
+  const baseInputRef = useRef("");
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    return () => {
+      try {
+        recognitionRef.current?.stop();
+      } catch {
+        // ignore
+      }
+    };
+  }, []);
+
+  const toggleVoice = () => {
+    const SR =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
+    if (!SR) {
+      toast.error("Voice input isn't supported in this browser. Try Chrome.");
+      return;
+    }
+
+    if (listening) {
+      recognitionRef.current?.stop();
+      return;
+    }
+
+    const recognition = new SR();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = navigator.language || "en-US";
+
+    baseInputRef.current = input ? input.trimEnd() + " " : "";
+
+    recognition.onresult = (event: any) => {
+      let finalText = "";
+      let interimText = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalText += transcript;
+        } else {
+          interimText += transcript;
+        }
+      }
+      if (finalText) {
+        baseInputRef.current += finalText;
+      }
+      setInput(baseInputRef.current + interimText);
+    };
+
+    recognition.onerror = (e: any) => {
+      if (e.error !== "aborted" && e.error !== "no-speech") {
+        toast.error(`Voice input error: ${e.error}`);
+      }
+      setListening(false);
+    };
+
+    recognition.onend = () => {
+      setListening(false);
+    };
+
+    recognitionRef.current = recognition;
+    try {
+      recognition.start();
+      setListening(true);
+    } catch {
+      setListening(false);
+    }
+  };
 
   const send = async () => {
     const text = input.trim();
@@ -125,20 +196,37 @@ function ChatPage() {
               onKeyDown={onKeyDown}
               placeholder="Message the assistant… (Enter to send, Shift+Enter for newline)"
               rows={2}
-              className="resize-none pr-14"
+              className="resize-none pr-24"
             />
-            <Button
-              onClick={send}
-              disabled={loading || !input.trim()}
-              size="icon"
-              className="absolute bottom-2 right-2 h-9 w-9"
-            >
-              {loading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Send className="h-4 w-4" />
-              )}
-            </Button>
+            <div className="absolute bottom-2 right-2 flex gap-1">
+              <Button
+                type="button"
+                onClick={toggleVoice}
+                size="icon"
+                variant={listening ? "default" : "outline"}
+                className={`h-9 w-9 ${listening ? "animate-pulse" : ""}`}
+                aria-label={listening ? "Stop voice input" : "Start voice input"}
+                title={listening ? "Stop voice input" : "Start voice input"}
+              >
+                {listening ? (
+                  <MicOff className="h-4 w-4" />
+                ) : (
+                  <Mic className="h-4 w-4" />
+                )}
+              </Button>
+              <Button
+                onClick={send}
+                disabled={loading || !input.trim()}
+                size="icon"
+                className="h-9 w-9"
+              >
+                {loading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Send className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
           </div>
           <AIDisclaimer />
         </div>
