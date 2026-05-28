@@ -50,20 +50,65 @@ Be concise by default; expand when asked. Use Markdown formatting for structure 
 If you don't know something, say so honestly.`,
 };
 
+const ALLOWED_MODES = ["email", "meeting", "tasks", "research", "chat"] as const;
+const ALLOWED_ROLES = ["user", "assistant"] as const;
+const MAX_MESSAGES = 50;
+const MAX_CONTENT_CHARS = 4000;
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { mode, messages, input } = await req.json();
-    const systemPrompt = SYSTEM_PROMPTS[mode] ?? SYSTEM_PROMPTS.chat;
+    const body = await req.json();
+    const { mode, messages, input } = body ?? {};
 
-    const chatMessages =
-      Array.isArray(messages) && messages.length > 0
-        ? messages
-        : [{ role: "user", content: String(input ?? "") }];
+    if (typeof mode !== "string" || !(ALLOWED_MODES as readonly string[]).includes(mode)) {
+      return new Response(JSON.stringify({ error: "Invalid mode" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    let chatMessages: Array<{ role: string; content: string }>;
+    if (Array.isArray(messages) && messages.length > 0) {
+      if (messages.length > MAX_MESSAGES) {
+        return new Response(JSON.stringify({ error: `Too many messages (max ${MAX_MESSAGES})` }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      for (const m of messages) {
+        if (
+          !m ||
+          typeof m.role !== "string" ||
+          !(ALLOWED_ROLES as readonly string[]).includes(m.role) ||
+          typeof m.content !== "string" ||
+          m.content.length === 0 ||
+          m.content.length > MAX_CONTENT_CHARS
+        ) {
+          return new Response(JSON.stringify({ error: "Invalid message format" }), {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+      }
+      chatMessages = messages.map((m) => ({ role: m.role, content: m.content }));
+    } else {
+      const text = String(input ?? "");
+      if (text.length === 0 || text.length > MAX_CONTENT_CHARS) {
+        return new Response(JSON.stringify({ error: "Invalid input length" }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      chatMessages = [{ role: "user", content: text }];
+    }
+
+    const systemPrompt = SYSTEM_PROMPTS[mode];
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
