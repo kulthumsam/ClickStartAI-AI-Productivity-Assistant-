@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AIDisclaimer } from "@/components/AIDisclaimer";
-import { Mail, FileText, ListChecks, Search, MessageSquare, ArrowRight, Sparkles } from "lucide-react";
+import { Mail, FileText, ListChecks, Search, MessageSquare, ArrowRight, Sparkles, MessageCircleHeart } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
