@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AIDisclaimer } from "@/components/AIDisclaimer";
-import { Mail, FileText, ListChecks, Search, MessageSquare, ArrowRight, Sparkles } from "lucide-react";
+import { Mail, FileText, ListChecks, Search, MessageSquare, ArrowRight, Sparkles, MessageCircleHeart } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
@@ -58,6 +58,14 @@ const tools = [
     desc: "Conversational assistant for writing, brainstorming, and quick answers.",
     color: "#00BBF9",
     bg: "#00BBF920",
+  },
+  {
+    to: "/feedback",
+    icon: MessageCircleHeart,
+    title: "Feedback",
+    desc: "Share your thoughts and help us improve ClickStartAI.",
+    color: "#975eed",
+    bg: "#975eed20",
   },
 ];
 
