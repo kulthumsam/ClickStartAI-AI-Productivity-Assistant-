@@ -47,11 +47,11 @@ This project is built using:
 - **LLM-powered AI generation** (used by each tool to produce drafts/summaries/plans/briefings)
 - **Frontend UI components** to support routing and structured “generator” forms (input panel + preview/output panel)
 
-Frontend: (e.g., Next.js / React / Tailwind / Lovable UI templates)
-Backend / API: (e.g., Node.js / serverless functions)
-AI Provider: (e.g., OpenAI API / other LLM)
-Storage: (e.g., database or in-memory for prototype—state what you used)
-Hosting: (e.g., Lovable deploy / Vercel / Netlify)
+- Frontend: (e.g., Next.js / React / Tailwind / Lovable UI templates)
+- Backend / API: (e.g., Node.js / serverless functions)
+- AI Provider: (e.g., OpenAI API / other LLM)
+- Storage: (e.g., database or in-memory for prototype—state what you used)
+- Hosting: (e.g., Lovable deploy / Vercel / Netlify)
 
 ## Setup instructions
 Because this project appears to be hosted/managed within **Lovable**, the setup depends on how your Lovable project is configured.
