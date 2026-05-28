@@ -20,6 +20,7 @@ import {
   MessageSquare,
   Sparkles,
   MessageCircleHeart,
+  MousePointerClick,
 } from "lucide-react";
 
 const items = [
@@ -40,8 +41,8 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarHeader className="border-b">
         <Link to="/" className="flex items-center gap-2 px-2 py-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Sparkles className="h-4 w-4" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground bg-[#975eed]">
+            <MousePointerClick className="h-4 w-4" />
           </div>
           <div className="flex flex-col leading-tight">
             <span className="text-sm font-semibold">ClickStartAI</span>
