@@ -19,6 +19,7 @@ import {
   Search,
   MessageSquare,
   Sparkles,
+  MessageCircleHeart,
 } from "lucide-react";
 
 const items = [
@@ -28,6 +29,7 @@ const items = [
   { title: "Task Planner", url: "/tasks", icon: ListChecks },
   { title: "Research", url: "/research", icon: Search },
   { title: "AI Chat", url: "/chat", icon: MessageSquare },
+  { title: "Feedback", url: "/feedback", icon: MessageCircleHeart },
 ];
 
 export function AppSidebar() {
