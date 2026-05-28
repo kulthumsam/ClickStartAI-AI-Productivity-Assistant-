@@ -7,6 +7,7 @@ ClickStartAI is a lightweight AI productivity web app that helps professionals c
 - planning actionable tasks from goals and context
 - generating research briefings
 - chatting with an AI assistant for general support
+- giving feedback for better app use
 
 The app is organized as a dashboard with dedicated pages (routes) for each tool.
 
@@ -30,6 +31,9 @@ The app is organized as a dashboard with dedicated pages (routes) for each tool.
 ### AI Chatbot
 - Provides a general conversational assistant experience for drafting, brainstorming, planning, and quick answers.
 - Includes a chat input area and conversational UI.
+
+### Feedback
+- Feedback page is accessible where users can submit ratings, categorized feedback, and messages — all saved to the database for admin review.
 
 ### Day/Night Feature
 - Includes a light and dark mode button so that you can switch between the two.
@@ -59,8 +63,6 @@ Because this project appears to be hosted/managed within **Lovable**, the setup 
 - If the project includes a standard frontend dependency setup, run:
   - `npm install`
   - `npm run dev`
-  
-(Only do this if your repository includes these files and Lovable expects local dev commands.)
 
 ### 4) Run the app
 - Use the Lovable “Run/Preview” option to launch the UI.
@@ -71,6 +73,7 @@ Because this project appears to be hosted/managed within **Lovable**, the setup 
   - `/tasks`
   - `/research`
   - `/chat`
+  - `/feedback`
 
 ### 5) Test each tool
 Verify:
@@ -79,3 +82,4 @@ Verify:
 - task planning returns prioritized plans
 - research assistant returns a coherent briefing
 - chat responds to prompts in the conversation area
+- that feedback is saved to the database for admin review.
