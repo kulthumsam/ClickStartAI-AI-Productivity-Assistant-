@@ -59,6 +59,14 @@ const tools = [
     color: "#00BBF9",
     bg: "#00BBF920",
   },
+  {
+    to: "/feedback",
+    icon: MessageCircleHeart,
+    title: "Feedback",
+    desc: "Share your thoughts and help us improve ClickStartAI.",
+    color: "#975eed",
+    bg: "#975eed20",
+  },
 ];
 
 function Dashboard() {
